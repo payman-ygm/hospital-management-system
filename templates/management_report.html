@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Management Report</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Management Report</h1>
+        
+        <h2>Total Doctors: {{ total_doctors }}</h2>
+        
+        <h2>Patients per Doctor</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Doctor Name</th>
+                    <th>Patient Count</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for doctor in patients_per_doctor %}
+                <tr>
+                    <td>{{ doctor.name }}</td>
+                    <td>{{ doctor.patient_count }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        
+        <h2>Appointments per Month</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Doctor Name</th>
+                    <th>Appointment Count</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for appointment in appointments_per_month %}
+                <tr>
+                    <td>{{ appointment.name }}</td>
+                    <td>{{ appointment.appointment_count }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
+{% endblock %}

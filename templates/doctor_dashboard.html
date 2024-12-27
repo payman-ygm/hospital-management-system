@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctor Dashboard</title>
+    <style>
+        .container {
+            text-align: center;
+            margin-top: 50px;
+        }
+        .button-container button {
+            margin: 10px;
+            padding: 15px 30px;
+            font-size: 16px;
+        }
+        h1 {
+            color: #2c3e50;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Doctor Dashboard</h1>
+        <p>Welcome, Doctor! What would you like to do today?</p>
+        <div class="button-container">
+            <button onclick=window.location.href='{{ url_for('view_patients') }}'>View Patients</button>
+            <button onclick=window.location.href='{{ url_for('update_patient_records') }}'>Update Patient Records</button>
+            <button onclick=window.location.href='{{ url_for('view_schedule') }}'>View Schedule</button>
+        </div>
+    </div>
+
+</body>
+</html>
