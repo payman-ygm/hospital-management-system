@@ -20,17 +20,31 @@ def init_db():
     cursor.execute('''CREATE TABLE IF NOT EXISTS doctors (
                         id INTEGER PRIMARY KEY AUTOINCREMENT,
                         name TEXT NOT NULL,
-                        specialty TEXT NOT NULL,
-                        contact TEXT NOT NULL
+                        surname TEXT NOT NULL,
+                        specialty TEXT NOT NULL
                     )''')
+    
     cursor.execute('''CREATE TABLE IF NOT EXISTS patients (
                         id INTEGER PRIMARY KEY AUTOINCREMENT,
                         name TEXT NOT NULL,
+                        surname TEXT NOT NULL,
                         age INTEGER NOT NULL,
-                        gender TEXT NOT NULL,
-                        contact TEXT NOT NULL,
-                        medical_history TEXT
+                        mobile TEXT NOT NULL,
+                        postcode TEXT NOT NULL,
+                        symptoms TEXT NOT NULL,
+                        doctor_id INTEGER,
+                        FOREIGN KEY (doctor_id) REFERENCES doctors(id)
                     )''')
+    
+    cursor.execute('''CREATE TABLE IF NOT EXISTS appointments (
+                        id INTEGER PRIMARY KEY AUTOINCREMENT,
+                        doctor_id INTEGER NOT NULL,
+                        patient_id INTEGER NOT NULL,
+                        appointment_date TEXT NOT NULL,
+                        FOREIGN KEY (doctor_id) REFERENCES doctors(id),
+                        FOREIGN KEY (patient_id) REFERENCES patients(id)
+                    )''')
+
     cursor.execute('''CREATE TABLE IF NOT EXISTS admin_credentials (
                         id INTEGER PRIMARY KEY AUTOINCREMENT,
                         admin_id INTEGER NOT NULL,
@@ -173,23 +187,30 @@ class ViewSchedule(MethodView):
 
 class AddPatient(MethodView):
     def get(self):
-        return render_template('add_patient.html')
-
-    def post(self):
-        name = request.form['name']
-        age = request.form['age']
-        gender = request.form['gender']
-        contact = request.form['contact']
-        medical_history = request.form['medical_history']
-
         conn = sqlite3.connect('hospital.db')
-        conn.execute('INSERT INTO patients (name, age, gender, contact, medical_history) VALUES (?, ?, ?, ?, ?)',
-                     (name, age, gender, contact, medical_history))
-        conn.commit()
+        conn.row_factory = sqlite3.Row
+        doctors = conn.execute('SELECT id, name FROM doctors').fetchall()
         conn.close()
+        return render_template('add_patient.html', doctors=doctors)
 
-        return redirect(url_for('view_patients'))
-    
+def post(self):
+    name = request.form['name']
+    surname = request.form['surname']
+    age = request.form['age']
+    mobile = request.form['mobile']
+    postcode = request.form['postcode']
+    symptoms = request.form.getlist('symptoms')
+    doctor_id = request.form['doctor']  # Get doctor ID from the form
+
+    conn = sqlite3.connect('hospital.db')
+    conn.execute('''
+        INSERT INTO patients (name, surname, age, mobile, postcode, symptoms, doctor_id)
+        VALUES (?, ?, ?, ?, ?, ?, ?)
+    ''', (name, surname, age, mobile, postcode, ", ".join(symptoms), doctor_id))
+    conn.commit()
+    conn.close()
+    return redirect(url_for('view_patients'))
+
 class AddDoctor(MethodView):
     def get(self):
         return render_template('add_doctor.html')

@@ -65,10 +65,12 @@
                 <tr>
                     <th>ID</th>
                     <th>Name</th>
+                    <th>Surname</th>
                     <th>Age</th>
-                    <th>Gender</th>
-                    <th>Contact</th>
-                    <th>Medical History</th>
+                    <th>Mobile</th>
+                    <th>Postcode</th>
+                    <th>Symptoms</th>
+                    <th>Doctor</th>
                 </tr>
             </thead>
             <tbody>
@@ -76,10 +78,12 @@
                 <tr>
                     <td>{{ patient.id }}</td>
                     <td>{{ patient.name }}</td>
+                    <td>{{ patient.surname }}</td>
                     <td>{{ patient.age }}</td>
-                    <td>{{ patient.gender }}</td>
-                    <td>{{ patient.contact }}</td>
-                    <td>{{ patient.medical_history }}</td>
+                    <td>{{ patient.mobile }}</td>
+                    <td>{{ patient.postcode}}</td>
+                    <td>{{ patient.symptoms}}</td>
+                    <td>{{ patient.doctor}}</td>
                 </tr>
                 {% endfor %}
             </tbody>

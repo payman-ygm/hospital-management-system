@@ -7,36 +7,134 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Patient</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            background: #ffffff;
+            padding: 20px 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #343a40;
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #495057;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            font-size: 14px;
+            color: #495057;
+        }
+
+        select[multiple] {
+            height: 100px;
+        }
+
+        button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            color: #ffffff;
+            background-color: #007bff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group:last-of-type {
+            margin-bottom: 0;
+        }
+
+        .form-group label {
+            margin-bottom: 8px;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
         <h1>Add New Patient</h1>
         <form method="POST">
-            <div>
+            <div class="form-group">
                 <label for="name">Name:</label>
                 <input type="text" id="name" name="name" required>
             </div>
-            <div>
+            <div class="form-group">
+                <label for="surname">Surname:</label>
+                <input type="text" id="surname" name="surname" required>
+            </div>
+            <div class="form-group">
                 <label for="age">Age:</label>
                 <input type="number" id="age" name="age" required>
             </div>
-            <div>
-                <label for="gender">Gender:</label>
-                <select id="gender" name="gender" required>
-                    <option value="Male">Male</option>
-                    <option value="Female">Female</option>
-                    <option value="Other">Other</option>
+            <div class="form-group">
+                <label for="mobile">Mobile:</label>
+                <input type="text" id="mobile" name="mobile" required>
+            </div>
+            <div class="form-group">
+                <label for="postcode">Postcode:</label>
+                <input type="text" id="postcode" name="postcode" required>
+            </div>
+            <div class="form-group">
+                <label for="symptoms">Symptoms:</label>
+                <select name="symptoms" id="symptoms" multiple>
+                    <option value="Dizziness">Dizziness</option>
+                    <option value="Fatigue">Fatigue</option>
+                    <option value="Fever">Fever</option>
+                    <option value="Chest pain">Chest pain</option>
+                    <option value="Cough">Cough</option>
+                    <option value="Sore throat">Sore throat</option>
+                    <option value="Shortness of breath">Shortness of breath</option>
+                    <option value="Diarrhea">Diarrhea</option>
+                    <option value="Headache">Headache</option>
+                    <option value="Migraine">Migraine</option>
+                    <option value="Abdominal pain">Abdominal pain</option>
+                    <option value="Nausea">Nausea</option>
                 </select>
             </div>
-            <div>
-                <label for="contact">Contact:</label>
-                <input type="text" id="contact" name="contact" required>
+            <div class="form-group">
+                <label for="doctor">Doctor:</label>
+                <select name="doctor" id="doctor" required>
+                    <option value="" disabled selected>Select a doctor</option>
+                    {% for doctor in doctors %}
+                        <option value="{{ doctor['id'] }}">{{ doctor['name'] }}</option>
+                    {% endfor %}
+                </select>
             </div>
-            <div>
-                <label for="medical_history">Medical History:</label>
-                <textarea id="medical_history" name="medical_history"></textarea>
-            </div>
-            <div>
+            <div class="form-group">
                 <button type="submit">Add Patient</button>
             </div>
         </form>
